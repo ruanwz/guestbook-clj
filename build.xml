@@ -34,8 +34,9 @@
     <copy file="/home/ruan/gitrepos/appengine-clj/appengine.jar" todir="${lib.dir}" />
     <copy file="/home/ruan/gitrepos/appengine-clj/lib/inflections-0.4-20100502.112537-9.jar" todir="${lib.dir}" />
     <copy file="/home/ruan/gitrepos/hiccup/hiccup.jar" todir="${lib.dir}" />
+    <copy file="/home/ruan/gitrepos/hiccup/hiccup.jar" todir="${lib.dir}" />
     <copy todir="${lib.dir}">
-      <filelist dir="${compojure.dir}/lib" files="commons-io-1.4.jar commons-codec-1.4.jar" />
+      <filelist dir="${compojure.dir}/lib" files="commons-io-1.4.jar commons-codec-1.4.jar clout-0.2.0.jar ring-core-0.2.5.jar ring-jetty-adapter-0.2.5.jar ring-servlet-0.2.5.jar" />
       <filelist dir="/home/ruan/src/clojure" files="clojure-1.2.0-master-SNAPSHOT.jar clojure-contrib-1.2.0-SNAPSHOT.jar" />
     </copy>   
   </target>
