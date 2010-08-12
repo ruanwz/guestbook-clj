@@ -1,10 +1,10 @@
 (ns guestbook.greetings
-  (:require [appengine-clj.datastore :as ds])
+  (:require [appengine.datastore :as ds])
   (:import (com.google.appengine.api.datastore Query)))
 
 
 (defn create [content author]
-  (ds/create {:kind "Greeting" :author author :content content :date (java.util.Date.)}))
+  (ds/create-entity {:kind "Greeting" :author author :content content :date (java.util.Date.)}))
 
 (defn find-all []
-  (ds/find-all (doto (Query. "Greeting") (.addSort "date"))))
+  (ds/find-entity (doto (Query. "Greeting") (.addSort "date"))))

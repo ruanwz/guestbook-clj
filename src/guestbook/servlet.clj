@@ -2,12 +2,19 @@
   (:gen-class
     :extends javax.servlet.http.HttpServlet)
   (:use
-    compojure.http
-    compojure.html)
+    compojure.core
+    compojure.response
+    hiccup.core
+    hiccup.page-helpers
+    hiccup.form-helpers
+    ring.util.response
+    ring.util.servlet
+    [ring.middleware params cookies]
+    compojure.route)
   (:require
     [guestbook.greetings    :as greetings]
     [guestbook.clj-exercise :as clj-exercise]
-    [appengine-clj.users    :as users]))
+    [appengine.users    :as users]))
 
 
 (defn show-guestbook [{:keys [user user-service]}]
@@ -39,7 +46,7 @@
 
 (defn sign-guestbook [params user]
   (greetings/create (params :content) (if user (.getNickname user)))
-  (redirect-to "/"))
+  (redirect "/"))
 
 (defn exercise [user]
   (let [[atom-value ref-value] (clj-exercise/show-off (if user (.getNickname user) "anon"))]
@@ -60,14 +67,18 @@
         (link-to "/" "back to guestbook")]])))
 
 (defroutes guestbook-app
-  (POST "/sign"
-    (sign-guestbook params ((users/user-info request) :user)))
-  (GET "/"
-    (show-guestbook (users/user-info request)))
-  (GET "/exercise"
-    (exercise ((users/user-info request) :user)))
-  (ANY "*"
+  (POST "/sign" []
+    ;(sign-guestbook params ((users/user-info :request) :user)))
+    "sign")
+  (GET "/test" []
+    (html [:h1 "Hello, World!"]))
+  (GET "/" []
+    (show-guestbook (users/user-info :request)))
+  (GET "/exercise" []
+    (exercise ((users/user-info :request) :user)))
+  (ANY "*" []
     [404 "Not found!"]))
 
-(defservice (users/wrap-with-user-info guestbook-app))
+;(defservice (users/wrap-with-user-info guestbook-app))
+(defservice guestbook-app)
 
